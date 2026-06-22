@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nuestra Historia — Hamilton Beach</title>
+</head>
+<body style="margin:0;">
+<!--
+  ============================================================
+  LANDING "NUESTRA HISTORIA" — Hamilton Beach Argentina
+  ============================================================
+  👉 PARA TIENDA NUBE: copiá SOLO el bloque <section class="hb-historia"> ... </section>
+     (incluyendo su <style>). El <!DOCTYPE>, <head> y <body> son solo para previsualizar
+     este archivo en tu navegador — Tienda Nube ya aporta los suyos.
+  ------------------------------------------------------------
+  Para publicar en Tienda Nube (hamiltonbeach.com.ar) como PÁGINA NUEVA:
+
+  1. En el editor de la página de TN, pegá TODO el bloque <section class="hb-historia"> ... </section>
+     INCLUYENDO el <style>. (El theme de TN agrega su propio header/footer; este bloque va en el cuerpo.)
+  2. Las imágenes/el video usan rutas locales (static/historia/...) solo para PREVISUALIZAR en tu compu.
+     Antes de publicar: subí los assets a TN (o a un hosting) y reemplazá cada src="static/historia/..."
+     por la URL pública que te dé Tienda Nube.
+  3. El video pesa 53MB — NO lo subas crudo. Subilo a YouTube/Vimeo y usá el snippet de embed
+     que está comentado más abajo (busca "OPCIÓN YOUTUBE"). Más liviano y carga más rápido.
+  ============================================================
+-->
+<section class="hb-historia">
+<style>
+  .hb-historia{
+    --hb-teal:#1C9D8E; --hb-dark:#231f20; --hb-cream:#f7f5f1; --hb-sand:#efe9e0;
+    --hb-text:#2a2724; --hb-muted:#6c6760;
+    font-family:"Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif;
+    color:var(--hb-text); line-height:1.6; -webkit-font-smoothing:antialiased;
+    max-width:100%; overflow-x:hidden;
+  }
+  .hb-historia *{box-sizing:border-box;}
+  .hb-historia img{max-width:100%; display:block;}
+  .hb-wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
+  .hb-historia h1,.hb-historia h2,.hb-historia h3{font-weight:700; line-height:1.15; color:var(--hb-dark); margin:0;}
+  .hb-historia p{margin:0 0 1em;}
+  .hb-teal{color:var(--hb-teal);}
+  .hb-eyebrow{font-size:.82rem; letter-spacing:.18em; text-transform:uppercase; color:var(--hb-teal); font-weight:700; margin-bottom:14px;}
+
+  /* HERO */
+  .hb-hero{position:relative; background:var(--hb-dark); color:#fff; text-align:center; padding:0;}
+  .hb-hero-media{position:relative; width:100%; height:min(78vh,620px); overflow:hidden;}
+  .hb-hero-media video,.hb-hero-media img{width:100%; height:100%; object-fit:cover; object-position:center 28%; opacity:.92;}
+  .hb-hero-overlay{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    background:linear-gradient(180deg,rgba(20,18,17,.25) 0%,rgba(20,18,17,.55) 100%); padding:24px;}
+  .hb-hero-overlay .hb-eyebrow{color:#fff; opacity:.85;}
+  .hb-hero h1{color:#fff; font-size:clamp(2rem,5.5vw,4rem); max-width:14ch; text-shadow:0 2px 24px rgba(0,0,0,.35);}
+  .hb-hero h1 span{color:#9fe6db;}
+  .hb-hero .hb-sub{margin-top:18px; font-size:clamp(1rem,2vw,1.25rem); max-width:34ch; opacity:.95;}
+
+  /* SECCIONES */
+  .hb-section{padding:72px 0;}
+  .hb-section--cream{background:var(--hb-cream);}
+  .hb-section--sand{background:var(--hb-sand);}
+  .hb-historia .hb-lead{font-size:clamp(1.4rem,3vw,2.1rem); color:var(--hb-dark); max-width:28ch; margin:0 auto; text-align:center; font-weight:500;}
+  .hb-historia .hb-lead strong{font-weight:800; color:var(--hb-dark);}
+  .hb-section h2{font-size:clamp(1.6rem,3.4vw,2.6rem); margin-bottom:18px;}
+  .hb-center{text-align:center;}
+  .hb-narrow{max-width:680px; margin:0 auto;}
+
+  /* TIMELINE */
+  .hb-timeline{position:relative; max-width:760px; margin:48px auto 0; padding-left:0;}
+  .hb-timeline::before{content:""; position:absolute; left:90px; top:6px; bottom:6px; width:2px; background:linear-gradient(var(--hb-teal),rgba(28,157,142,.25));}
+  .hb-tl{position:relative; display:grid; grid-template-columns:90px 1fr; gap:28px; padding:0 0 38px 0;}
+  .hb-tl:last-child{padding-bottom:0;}
+  .hb-tl-year{font-size:1.5rem; font-weight:800; color:var(--hb-teal); text-align:right; line-height:1.1;}
+  .hb-tl-body{position:relative;}
+  .hb-tl-body::before{content:""; position:absolute; left:-23px; top:7px; width:13px; height:13px; border-radius:50%; background:#fff; border:3px solid var(--hb-teal);}
+  .hb-tl-body h3{font-size:1.12rem; margin-bottom:4px;}
+  .hb-tl-body p{font-size:.98rem; color:var(--hb-muted); margin:0;}
+
+  /* SPLIT (imagen + texto) */
+  .hb-split{display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;}
+  .hb-split img{border-radius:14px; box-shadow:0 18px 50px rgba(35,31,32,.16);}
+  .hb-split--rev .hb-split-text{order:2;}
+
+  /* PATENTE callout */
+  .hb-patent{background:var(--hb-dark); color:#fff; border-radius:16px; padding:36px; text-align:center; max-width:560px; margin:36px auto 0;}
+  .hb-patent .hb-plate{font-family:"Courier New",monospace; letter-spacing:.08em; color:#cbb994; border:1px solid rgba(203,185,148,.4); border-radius:8px; padding:14px 18px; display:inline-block; margin-bottom:18px; font-size:.9rem;}
+  .hb-patent .hb-plate-img{max-width:420px; width:100%; border-radius:10px; margin:0 auto 20px; box-shadow:0 12px 34px rgba(0,0,0,.45);}
+  .hb-patent h3{color:#fff; font-size:1.4rem;}
+
+  /* STAT */
+  .hb-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:40px; text-align:center;}
+  .hb-stat .n{font-size:clamp(2rem,5vw,3.2rem); font-weight:800; color:var(--hb-teal); line-height:1;}
+  .hb-stat .l{font-size:.95rem; color:var(--hb-muted); margin-top:8px;}
+
+  /* CTA */
+  .hb-cta{background:var(--hb-teal); color:#fff; text-align:center;}
+  .hb-cta h2{color:#fff;}
+  .hb-cta p{opacity:.95; max-width:42ch; margin:0 auto 28px;}
+  .hb-btn{display:inline-block; background:#fff; color:var(--hb-dark); font-weight:700; text-decoration:none;
+    padding:15px 34px; border-radius:50px; transition:transform .15s ease, box-shadow .15s ease; box-shadow:0 8px 24px rgba(0,0,0,.18);}
+  .hb-btn:hover{transform:translateY(-2px); box-shadow:0 12px 30px rgba(0,0,0,.25);}
+  .hb-btn--ghost{background:transparent; color:#fff; border:2px solid rgba(255,255,255,.7); box-shadow:none; margin-left:12px;}
+  .hb-cta-top{padding:32px 0; background:var(--hb-cream); text-align:center; border-bottom:1px solid rgba(0,0,0,.06);}
+  .hb-btn--solid{background:var(--hb-teal); color:#fff;}
+  .hb-btn--outline{background:transparent; color:var(--hb-teal); border:2px solid var(--hb-teal); box-shadow:none; margin-left:12px;}
+
+  .hb-flags{font-size:1.4rem; letter-spacing:.1em;}
+  .hb-flag{height:1em; width:1.4em; vertical-align:-.18em; border-radius:2px; box-shadow:0 0 0 .5px rgba(0,0,0,.15); display:inline-block;}
+
+  @media (max-width:760px){
+    .hb-section{padding:52px 0;}
+    .hb-split{grid-template-columns:1fr; gap:28px;}
+    .hb-split--rev .hb-split-text{order:0;}
+    .hb-timeline::before{left:66px;}
+    .hb-tl{grid-template-columns:66px 1fr; gap:20px;}
+    .hb-tl-year{font-size:1.2rem;}
+    .hb-stats{grid-template-columns:1fr; gap:18px;}
+    .hb-btn--ghost,.hb-btn--outline{margin-left:0; margin-top:12px;}
+  }
+</style>
+
+<!-- Banderitas SVG (se ven igual en todos los dispositivos, incluido Windows) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="hb-flag-us" viewBox="0 0 28 20">
+    <rect width="28" height="20" fill="#fff"/>
+    <g fill="#b22234">
+      <rect width="28" height="1.54" y="0"/><rect width="28" height="1.54" y="3.08"/>
+      <rect width="28" height="1.54" y="6.15"/><rect width="28" height="1.54" y="9.23"/>
+      <rect width="28" height="1.54" y="12.3"/><rect width="28" height="1.54" y="15.38"/>
+      <rect width="28" height="1.54" y="18.46"/>
+    </g>
+    <rect width="12" height="10.77" fill="#3c3b6e"/>
+    <g fill="#fff">
+      <circle cx="2" cy="2" r=".55"/><circle cx="5" cy="2" r=".55"/><circle cx="8" cy="2" r=".55"/><circle cx="11" cy="2" r=".55"/>
+      <circle cx="3.5" cy="4" r=".55"/><circle cx="6.5" cy="4" r=".55"/><circle cx="9.5" cy="4" r=".55"/>
+      <circle cx="2" cy="6" r=".55"/><circle cx="5" cy="6" r=".55"/><circle cx="8" cy="6" r=".55"/><circle cx="11" cy="6" r=".55"/>
+      <circle cx="3.5" cy="8.7" r=".55"/><circle cx="6.5" cy="8.7" r=".55"/><circle cx="9.5" cy="8.7" r=".55"/>
+    </g>
+  </symbol>
+  <symbol id="hb-flag-ar" viewBox="0 0 28 20">
+    <rect width="28" height="20" fill="#fff"/>
+    <rect width="28" height="6.67" y="0" fill="#74ACDF"/>
+    <rect width="28" height="6.67" y="13.33" fill="#74ACDF"/>
+    <circle cx="14" cy="10" r="2.4" fill="#F6B40E"/>
+  </symbol>
+</svg>
+
+<!-- ===================== HERO ===================== -->
+<div class="hb-hero">
+  <div class="hb-hero-media">
+    <!-- ⏳ FONDO ESTÁTICO TEMPORAL (hasta tener el video 16:9). Reemplazá el src por la URL de TN al publicar. -->
+    <img src="https://d1a9qnv764bsoo.cloudfront.net/stores/005/807/159/rte/fundadores.png" alt="Louis Hamilton y Chester Beach, fundadores de Hamilton Beach, en su taller (1910)">
+
+    <!-- 🔜 CUANDO TENGAS EL VIDEO 16:9 EN YOUTUBE: borrá el <img> de arriba y descomentá este bloque (poné tu ID en TU_ID, 2 veces):
+    <div style="position:relative;padding-top:56.25%;">
+      <iframe src="https://www.youtube.com/embed/TU_ID?autoplay=1&mute=1&loop=1&playlist=TU_ID&controls=0&showinfo=0&modestbranding=1"
+        style="position:absolute;inset:0;width:100%;height:100%;border:0;" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+    -->
+  </div>
+  <div class="hb-hero-overlay">
+    <div class="hb-eyebrow">Desde 1910 <svg class="hb-flag"><use href="#hb-flag-us"></use></svg></div>
+    <h1>Más de 100 años <span>cocinando con confianza</span></h1>
+    <p class="hb-sub">La marca de electrodomésticos de cocina N°1 de Estados Unidos. Hoy, en tu cocina. <svg class="hb-flag"><use href="#hb-flag-ar"></use></svg></p>
+  </div>
+</div>
+
+<!-- ============ CTA SUPERIOR (botones arriba de Nuestra historia) ============ -->
+<div class="hb-cta-top">
+  <div class="hb-wrap">
+    <a class="hb-btn hb-btn--solid" href="https://www.hamiltonbeach.com.ar/productos/">Ver productos</a>
+  </div>
+</div>
+
+<!-- ===================== INTRO ===================== -->
+<div class="hb-section hb-section--cream">
+  <div class="hb-wrap hb-center hb-narrow">
+    <div class="hb-eyebrow">Nuestra historia</div>
+    <p class="hb-lead">No somos una marca nueva. Somos una <strong>marca con historia</strong>: más de un siglo haciendo electrodomésticos en los que <strong>se puede confiar</strong>.</p>
+  </div>
+</div>
+
+<!-- ===================== TIMELINE ===================== -->
+<div class="hb-section">
+  <div class="hb-wrap">
+    <div class="hb-center">
+      <h2>Un siglo de buenas ideas</h2>
+      <p class="hb-narrow" style="margin:0 auto; color:var(--hb-muted);">De un taller en Estados Unidos a las cocinas de todo el mundo.</p>
+    </div>
+    <div class="hb-timeline">
+      <div class="hb-tl">
+        <div class="hb-tl-year">1910</div>
+        <div class="hb-tl-body">
+          <h3>Nace Hamilton Beach</h3>
+          <p>Louis Hamilton y Chester Beach fundan la compañía en Racine, Wisconsin, con una idea revolucionaria: un motor chico, potente y confiable para usar en casa.</p>
+        </div>
+      </div>
+      <div class="hb-tl">
+        <div class="hb-tl-year">1911</div>
+        <div class="hb-tl-body">
+          <h3>Un ícono americano</h3>
+          <p>Llega la batidora de malteadas: la máquina que estuvo en cada heladería y fuente de soda de Estados Unidos durante generaciones.</p>
+        </div>
+      </div>
+      <div class="hb-tl">
+        <div class="hb-tl-year">1917</div>
+        <div class="hb-tl-body">
+          <h3>El motor patentado</h3>
+          <p>El Hamilton Beach Home Motor se patenta el 18 de septiembre de 1917. El mismo motor que dio origen a batidoras, licuadoras y mucho más.</p>
+        </div>
+      </div>
+      <div class="hb-tl">
+        <div class="hb-tl-year">Hoy</div>
+        <div class="hb-tl-body">
+          <h3>La N°1 de Estados Unidos</h3>
+          <p>Más de 100 años después, Hamilton Beach es la marca de pequeños electrodomésticos de cocina más elegida de EE.UU. Y ya está en Argentina.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== EL MOTOR / PATENTE ===================== -->
+<div class="hb-section hb-section--sand">
+  <div class="hb-wrap">
+    <div class="hb-split">
+      <div class="hb-split-text">
+        <div class="hb-eyebrow">El invento que cambió todo</div>
+        <h2>El motor universal</h2>
+        <p>A principios del siglo XX, los motores eléctricos eran enormes y solo servían para la industria. Hamilton y Beach lograron lo imposible: un motor pequeño y poderoso capaz de batir, licuar, moler y pulir. El corazón de la cocina moderna.</p>
+        <p style="color:var(--hb-muted);">Esa misma ingeniería y exigencia está detrás de cada producto Hamilton Beach que usás hoy.</p>
+      </div>
+      <div>
+        <img src="https://d1a9qnv764bsoo.cloudfront.net/stores/005/807/159/rte/motor.png" alt="Hamilton Beach Home Motor, patentado en 1917">
+      </div>
+    </div>
+    <div class="hb-patent">
+      <!-- 📸 GUARDÁ la foto real de la chapa en: static/historia/chapa.png
+           Ideal: recortada a la placa de bronce (PATENTED SEPT 18 1917). También sirve la foto del motor entero. -->
+      <img class="hb-plate-img" src="https://d1a9qnv764bsoo.cloudfront.net/stores/005/807/159/rte/chapa.png" alt="Placa de patente original — Hamilton Beach Home Motor, patentado el 18 de septiembre de 1917, Racine, Wisconsin">
+      <h3>Hecho para durar. Probado por el tiempo.</h3>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== STATS ===================== -->
+<div class="hb-section hb-center">
+  <div class="hb-wrap">
+    <h2>Calidad que se nota</h2>
+    <p class="hb-narrow" style="margin:0 auto; color:var(--hb-muted);">Productos pensados para tu día a día. Calidad de marca líder, sin pagar de más.</p>
+    <div class="hb-stats">
+      <div class="hb-stat"><div class="n">+100</div><div class="l">años de historia</div></div>
+      <div class="hb-stat"><div class="n">N°1</div><div class="l">en cocina en EE.UU.</div></div>
+      <div class="hb-stat"><div class="n"><svg class="hb-flag" style="height:2.6rem;width:3.7rem;vertical-align:middle"><use href="#hb-flag-ar"></use></svg></div><div class="l">ahora en Argentina</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== AHORA EN ARGENTINA (split) ===================== -->
+<div class="hb-section hb-section--cream">
+  <div class="hb-wrap">
+    <div class="hb-split hb-split--rev">
+      <div>
+        <img src="https://d1a9qnv764bsoo.cloudfront.net/stores/005/807/159/rte/cocina-ar.png" alt="Productos Hamilton Beach en una cocina argentina">
+      </div>
+      <div class="hb-split-text">
+        <div class="hb-eyebrow">Ahora en tu cocina <svg class="hb-flag"><use href="#hb-flag-ar"></use></svg></div>
+        <h2>La misma historia, en Argentina</h2>
+        <p>Toda esa trayectoria —la misma ingeniería, la misma confianza— hoy acompaña tus momentos de todos los días: tu café de la mañana, tu mate de la tarde, el desayuno en familia.</p>
+        <p>Cafeteras, pavas eléctricas, tostadoras y más. Para que cada día te salga bien.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CTA ===================== -->
+<div class="hb-section hb-cta">
+  <div class="hb-wrap">
+    <h2>Sumá un clásico a tu cocina</h2>
+    <p>Descubrí toda la línea Hamilton Beach. Más de 100 años de confianza, hechos para tu casa.</p>
+    <a class="hb-btn" href="https://www.hamiltonbeach.com.ar/productos/">Ver productos</a>
+  </div>
+</div>
+
+</section>
+<!-- ===================== FIN LANDING ===================== -->
+
+<!-- Auto-altura: le avisa al iframe de Tienda Nube cuánto mide para que no quede cortado ni con scroll -->
+<script>
+(function(){
+  function send(){ try{ parent.postMessage({hbHistoriaHeight: document.documentElement.scrollHeight}, '*'); }catch(e){} }
+  window.addEventListener('load', send);
+  window.addEventListener('resize', send);
+  if (window.ResizeObserver){ new ResizeObserver(send).observe(document.body); }
+  setInterval(send, 1000);
+})();
+</script>
+</body>
+</html>
