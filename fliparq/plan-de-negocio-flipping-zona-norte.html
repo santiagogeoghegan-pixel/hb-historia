@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FlipArq — Plan de Negocio de Flipping</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#eef0ea; --paper-raised:#ffffff; --paper-sunken:#e4e6de;
+    --ink:#1c231e; --ink-soft:#5c6459; --ink-faint:#8b9184;
+    --line:#d3d6c9; --line-strong:#b7bcac;
+    --accent:#a3492b; --accent-ink:#7a341d; --accent-soft:#f1e0d6;
+    --gold:#8a6f2e; --gold-soft:#efe6cd;
+    --good:#3c7a52; --good-soft:#dcece1;
+    --warn:#a97a1f; --warn-soft:#f2e6cd;
+    --bad:#a83d3d; --bad-soft:#f1dcdc;
+    --shadow: 0 1px 2px rgba(28,35,30,.06), 0 8px 24px rgba(28,35,30,.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#161a15; --paper-raised:#1e231d; --paper-sunken:#12150f;
+      --ink:#eceee6; --ink-soft:#aab0a1; --ink-faint:#767c6d;
+      --line:#333a2d; --line-strong:#454d3c;
+      --accent:#e0855a; --accent-ink:#f0a983; --accent-soft:#3a2620;
+      --gold:#c9ab5f; --gold-soft:#332a17;
+      --good:#68b085; --good-soft:#1c2d21;
+      --warn:#d1a34a; --warn-soft:#332a15;
+      --bad:#d47777; --bad-soft:#332020;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#161a15; --paper-raised:#1e231d; --paper-sunken:#12150f;
+    --ink:#eceee6; --ink-soft:#aab0a1; --ink-faint:#767c6d;
+    --line:#333a2d; --line-strong:#454d3c;
+    --accent:#e0855a; --accent-ink:#f0a983; --accent-soft:#3a2620;
+    --gold:#c9ab5f; --gold-soft:#332a17;
+    --good:#68b085; --good-soft:#1c2d21;
+    --warn:#d1a34a; --warn-soft:#332a15;
+    --bad:#d47777; --bad-soft:#332020;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Newsreader",Georgia,"Times New Roman",serif;
+    font-size:16.5px; line-height:1.6;
+    padding-inline:20px;
+  }
+  ::selection{ background:var(--accent-soft); color:var(--accent-ink); }
+  a{ color:var(--accent-ink); text-decoration-color:var(--line-strong); text-underline-offset:2px; }
+  a:hover{ text-decoration-color:currentColor; }
+  h1,h2,h3,h4{ font-family:"Archivo",system-ui,sans-serif; color:var(--ink); text-wrap:balance; margin:0; }
+  .mono{ font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums; }
+  .wrap{ max-width:960px; margin:0 auto; }
+  .wrap-wide{ max-width:1180px; margin:0 auto; }
+  p{ margin:0 0 1em; }
+  .eyebrow{ font-family:"IBM Plex Mono",monospace; font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--accent-ink); font-weight:600; }
+  .lede{ color:var(--ink-soft); font-size:1.05rem; max-width:62ch; }
+
+  /* MASTHEAD */
+  .masthead{ padding-block:56px 40px; border-bottom:1px solid var(--line); }
+  .masthead .kicker{ display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+  .masthead .kicker .dot{ width:7px; height:7px; border-radius:50%; background:var(--accent); }
+  .masthead h1{ font-size:clamp(2rem,5vw,3.1rem); line-height:1.05; font-weight:800; max-width:16ch; }
+  .masthead .sub{ margin-top:16px; font-family:"Newsreader",serif; font-style:italic; font-size:1.15rem; color:var(--ink-soft); max-width:56ch; }
+  .meta-row{ display:flex; flex-wrap:wrap; gap:24px; margin-top:28px; font-family:"IBM Plex Mono",monospace; font-size:.78rem; color:var(--ink-faint); }
+  .meta-row strong{ color:var(--ink-soft); font-weight:600; }
+
+  /* NAV / TOC */
+  .toc{ border-bottom:1px solid var(--line); padding-block:14px; position:sticky; top:0; background:color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter:blur(6px); z-index:5; }
+  .toc-scroll{ display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; }
+  .toc-scroll::-webkit-scrollbar{ display:none; }
+  .toc a{ white-space:nowrap; font-family:"IBM Plex Mono",monospace; font-size:.72rem; letter-spacing:.03em; text-transform:uppercase; color:var(--ink-soft); text-decoration:none; padding:6px 12px; border-radius:20px; border:1px solid transparent; }
+  .toc a:hover{ border-color:var(--line-strong); color:var(--ink); }
+
+  /* SECTIONS */
+  section{ padding-block:52px; border-bottom:1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+  .sec-head{ display:flex; gap:18px; align-items:baseline; margin-bottom:28px; }
+  .sec-num{ font-family:"IBM Plex Mono",monospace; font-size:.95rem; color:var(--accent); font-weight:600; }
+  .sec-head h2{ font-size:clamp(1.5rem,3vw,2.05rem); font-weight:700; }
+  section > .lede{ margin-top:-14px; margin-bottom:28px; }
+
+  /* CALLOUTS */
+  .callout{ background:var(--paper-raised); border:1px solid var(--line); border-radius:10px; padding:22px 24px; box-shadow:var(--shadow); }
+  .callout + .callout{ margin-top:16px; }
+  .callout h3{ font-size:1rem; margin-bottom:8px; }
+  .callout.flag{ border-left:4px solid var(--accent); }
+  .callout.flag .eyebrow{ margin-bottom:6px; display:block; }
+
+  /* STAT TILES */
+  .stat-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:8px; overflow:hidden; margin:16px 0; }
+  .stat-tile{ background:var(--paper-raised); padding:12px 14px; }
+  .stat-tile .v{ font-family:"IBM Plex Mono",monospace; font-size:1.15rem; font-weight:600; color:var(--ink); }
+  .stat-tile .l{ font-size:.72rem; color:var(--ink-faint); margin-top:2px; text-transform:uppercase; letter-spacing:.03em; }
+
+  /* CHIPS */
+  .chip{ display:inline-flex; align-items:center; gap:5px; font-family:"IBM Plex Mono",monospace; font-size:.68rem; letter-spacing:.04em; text-transform:uppercase; font-weight:600; padding:3px 9px; border-radius:20px; }
+  .chip.good{ background:var(--good-soft); color:var(--good); }
+  .chip.warn{ background:var(--warn-soft); color:var(--warn); }
+  .chip.bad{ background:var(--bad-soft); color:var(--bad); }
+  .chip.neutral{ background:var(--paper-sunken); color:var(--ink-soft); }
+
+  /* ZONE GRID / CARDS */
+  .zone-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+  .zone-card{ background:var(--paper-raised); border:1px solid var(--line); border-radius:10px; padding:20px 22px; box-shadow:var(--shadow); }
+  .zone-card-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:4px; }
+  .zone-card-head h3{ font-size:1.15rem; }
+  .zone-card .tag{ font-family:"IBM Plex Mono",monospace; font-size:.7rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.03em; }
+  .zone-card p{ font-size:.94rem; color:var(--ink-soft); margin-top:10px; margin-bottom:10px; }
+  .zone-card blockquote{ margin:12px 0 0; padding:10px 12px; background:var(--paper-sunken); border-left:3px solid var(--gold); border-radius:0 6px 6px 0; font-family:"IBM Plex Mono",monospace; font-size:.78rem; color:var(--ink-soft); line-height:1.5; }
+  .zone-card blockquote cite{ display:block; margin-top:6px; font-style:normal; color:var(--ink-faint); }
+  .zone-card blockquote cite a{ color:var(--ink-faint); }
+
+  /* TABLES */
+  .table-scroll{ overflow-x:auto; border:1px solid var(--line); border-radius:10px; }
+  table{ border-collapse:collapse; width:100%; min-width:640px; background:var(--paper-raised); font-size:.9rem; }
+  caption{ caption-side:top; text-align:left; padding:12px 16px 0; font-family:"IBM Plex Mono",monospace; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-faint); }
+  th,td{ padding:10px 14px; text-align:left; border-bottom:1px solid var(--line); white-space:nowrap; }
+  thead th{ font-family:"IBM Plex Mono",monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); background:var(--paper-sunken); position:sticky; top:0; }
+  tbody tr:last-child td{ border-bottom:none; }
+  tbody tr:hover{ background:var(--paper-sunken); }
+  td.num, th.num{ font-family:"IBM Plex Mono",monospace; text-align:right; }
+  td.wrap-cell{ white-space:normal; min-width:220px; }
+
+  /* SEGMENT CARDS */
+  .seg-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .seg-card{ background:var(--paper-raised); border:1px solid var(--line); border-radius:10px; padding:18px; box-shadow:var(--shadow); }
+  .seg-card .range{ font-family:"IBM Plex Mono",monospace; font-size:1.05rem; color:var(--accent-ink); font-weight:600; margin:6px 0 10px; }
+  .seg-card h3{ font-size:.98rem; }
+  .seg-card ul{ margin:0; padding-left:18px; font-size:.85rem; color:var(--ink-soft); }
+  .seg-card li{ margin-bottom:3px; }
+
+  /* MODEL EXAMPLE */
+  .model-block{ background:var(--paper-raised); border:1px solid var(--line); border-radius:10px; padding:24px 26px; box-shadow:var(--shadow); margin-bottom:24px; }
+  .model-block h3{ font-size:1.2rem; margin-bottom:4px; }
+  .model-block .model-meta{ font-family:"IBM Plex Mono",monospace; font-size:.75rem; color:var(--ink-faint); margin-bottom:16px; }
+  .formula{ font-family:"IBM Plex Mono",monospace; background:var(--paper-sunken); border:1px solid var(--line); border-radius:8px; padding:12px 16px; font-size:.85rem; color:var(--ink-soft); margin:14px 0; }
+
+  /* RISK LIST */
+  .risk-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .risk-card{ background:var(--paper-raised); border:1px solid var(--line); border-left:4px solid var(--bad); border-radius:0 10px 10px 0; padding:16px 18px; }
+  .risk-card h3{ font-size:.95rem; margin-bottom:6px; }
+  .risk-card .mit{ margin-top:8px; padding-top:8px; border-top:1px dashed var(--line); font-size:.85rem; color:var(--ink-soft); }
+  .risk-card .mit strong{ color:var(--good); font-family:"IBM Plex Mono",monospace; font-size:.68rem; text-transform:uppercase; letter-spacing:.04em; display:block; margin-bottom:3px; }
+
+  /* NEXT STEPS */
+  .steps{ counter-reset:step; display:flex; flex-direction:column; gap:0; }
+  .step{ counter-increment:step; display:grid; grid-template-columns:44px 1fr; gap:16px; padding-block:16px; border-top:1px solid var(--line); }
+  .step:first-child{ border-top:none; }
+  .step::before{ content:counter(step,decimal-leading-zero); font-family:"IBM Plex Mono",monospace; font-size:1rem; color:var(--accent); font-weight:600; }
+  .step h3{ font-size:1rem; margin-bottom:4px; }
+  .step p{ font-size:.92rem; color:var(--ink-soft); margin:0; }
+
+  footer{ padding-block:40px 60px; }
+  footer .lede{ font-size:.85rem; }
+  .src-list{ columns:2; column-gap:32px; font-size:.82rem; color:var(--ink-soft); }
+  .src-list li{ break-inside:avoid; margin-bottom:6px; }
+
+  @media (max-width:760px){
+    body{ font-size:15.5px; }
+    .zone-grid, .risk-grid{ grid-template-columns:1fr; }
+    .seg-grid{ grid-template-columns:1fr 1fr; }
+    .stat-row{ grid-template-columns:1fr; }
+    .src-list{ columns:1; }
+    section{ padding-block:38px; }
+    .step{ grid-template-columns:32px 1fr; }
+  }
+  @media (max-width:460px){
+    .seg-grid{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="masthead wrap-wide">
+  <div class="kicker"><span class="dot"></span><span class="eyebrow">Plan de negocio · FlipArq</span></div>
+  <h1>Flipping inmobiliario en la Zona Norte del AMBA</h1>
+  <p class="sub">Análisis de potencial por barrio y localidad — CABA Norte y GBA Norte — para un vehículo de compra, reciclaje y reventa de propiedades, apalancado en la capacidad de obra propia de MZV Arquitectura.</p>
+  <div class="meta-row">
+    <span><strong>Alcance:</strong> CABA Norte + GBA Norte</span>
+    <span><strong>Supuesto base de obra:</strong> USD 600/m² (revisado en §5)</span>
+    <span><strong>Preparado:</strong> septiembre 2026</span>
+  </div>
+</div>
+
+<nav class="toc wrap-wide">
+  <div class="toc-scroll">
+    <a href="#resumen">01 Resumen</a>
+    <a href="#tesis">02 Tesis</a>
+    <a href="#mercado">03 El mercado</a>
+    <a href="#metodo">04 Fuentes</a>
+    <a href="#supuestos">05 Supuestos</a>
+    <a href="#caba">06 CABA Norte</a>
+    <a href="#gba">07 GBA Norte</a>
+    <a href="#matriz">08 Matriz</a>
+    <a href="#segmentos">09 Segmentos</a>
+    <a href="#modelo">10 Modelo económico</a>
+    <a href="#riesgos">11 Riesgos</a>
+    <a href="#pasos">12 Próximos pasos</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- 01 RESUMEN -->
+<section id="resumen" class="wrap">
+  <div class="sec-head"><span class="sec-num">01</span><h2>Resumen ejecutivo</h2></div>
+  <p>Relevamos 19 barrios y localidades de la Zona Norte del AMBA — 8 en CABA (Belgrano, Belgrano R, Núñez, Colegiales, Villa Urquiza, Coghlan, Saavedra, Palermo Chico/Botánico) y 11 en GBA Norte (La Lucila, Olivos, Acassuso, Vicente López centro/Florida, Villa Adelina, San Isidro centro, Beccar, Boulogne, San Fernando, Tigre centro/Don Torcuato/Ricardo Rojas, Rincón de Milberg) — cruzando precios de publicación de propiedades <strong>a reciclar/demoler</strong> contra precios de propiedades <strong>terminadas o a estrenar</strong> comparables, usando Zonaprop, Argenprop y Mercado Libre Inmuebles como fuente primaria y prensa especializada (Infobae, Ámbito, La Nación, iProfesional, Reporte Inmobiliario) como respaldo de índices de barrio.</p>
+  <div class="callout flag">
+    <span class="eyebrow">Hallazgo principal</span>
+    <h3>El supuesto de USD 600/m² de construcción está por debajo del costo real 2026</h3>
+    <p style="margin-bottom:0">Los índices de la Cámara Argentina de la Construcción y de APYMECO ubican el costo de obra en dólares en <strong>USD 900–1.300/m²</strong> para una reforma o construcción de nivel estándar a medio-alto, con subas del <strong>+17,2% en dólares</strong> entre septiembre 2025 y marzo 2026 por atraso cambiario. USD 600/m² sólo es razonable como piso para intervenciones parciales (sin tocar estructura ni instalaciones completas). Rehacer el modelo con el rango real es el ajuste más importante antes de comprometer capital — ver §05 y §10.</p>
+  </div>
+  <p style="margin-top:20px">Aun con costos de obra realistas, el negocio sigue siendo atractivo en barrios de <strong>ARV (valor terminado) alto</strong> — Belgrano, Núñez, Villa Urquiza y Saavedra en CABA; La Lucila, Olivos, Acassuso, Beccar y San Isidro centro en GBA — donde el spread entre precio a reciclar y precio terminado absorbe el costo de obra real y deja margen bruto de 20-35%. Se angosta o se vuelve negativo en zonas de ARV bajo (Tigre centro, San Fernando genérico, Don Torcuato) salvo que se use la estrategia de <strong>ampliación de m² cubiertos vía FOT</strong>, disponible casi exclusivamente en GBA por el tamaño de lote.</p>
+  <p>Recomendamos: (1) recalibrar el modelo financiero con USD 900-1.300/m², (2) priorizar el pipeline de scouting en Villa Urquiza, Saavedra y Belgrano (CABA) y Boulogne, Villa Adelina y Olivos (GBA) por su mejor relación ticket de entrada / margen, (3) reservar Belgrano R, Palermo Chico y La Lucila para operaciones puntuales de alta gama, y (4) usar la integración vertical con MZV Arquitectura para acercar el costo de obra real a los USD 700-900/m², que es donde el negocio empieza a rendir con holgura en la mayoría de las zonas.</p>
+</section>
+
+<!-- 02 TESIS -->
+<section id="tesis" class="wrap">
+  <div class="sec-head"><span class="sec-num">02</span><h2>Tesis de inversión y ventaja competitiva</h2></div>
+  <p>El flipping es, en esencia, un negocio de <strong>ejecución de obra a costo controlado</strong> disfrazado de negocio inmobiliario: todas las fuentes consultadas —desde la prensa especializada hasta los referentes del sector— coinciden en que <em>"el secreto está en la compra, no en la venta"</em>, y que el principal factor de fracaso es la falta de control sobre los costos y los tiempos de obra, no un error de tasación de mercado.</p>
+  <p>Esa es exactamente la ventaja competitiva de este proyecto: contar con <strong>MZV Arquitectura</strong> como brazo de diseño, dirección de obra y ejecución elimina el margen del contratista general (típicamente 15-25% del costo de obra en un esquema tercerizado), acorta los tiempos de obra por control directo del cronograma, y permite calibrar el nivel de terminación exacto que exige cada micro-mercado sin sobre-invertir. En un negocio donde el margen bruto ronda 20-35% sobre el costo total, achicar el costo de obra en 10-15 puntos porcentuales vía integración vertical puede ser la diferencia entre una operación mediocre y una muy rentable.</p>
+  <div class="stat-row">
+    <div class="stat-tile"><div class="v">15–25%</div><div class="l">margen típico de un contratista general que se internaliza</div></div>
+    <div class="stat-tile"><div class="v">7–12%</div><div class="l">brecha habitual entre precio pedido y precio de cierre (Belgrano, usada como proxy de la zona)</div></div>
+    <div class="stat-tile"><div class="v">20–35%</div><div class="l">margen bruto de referencia sobre costo total en las zonas de mejor ecuación</div></div>
+  </div>
+</section>
+
+<!-- 03 EL MERCADO -->
+<section id="mercado" class="wrap">
+  <div class="sec-head"><span class="sec-num">03</span><h2>El mercado del flipping en Argentina, hoy</h2></div>
+  <p>El flipping inmobiliario ("comprar, reciclar y vender") volvió a tomar impulso en Argentina en 2025-2026, al punto de que el 5 de mayo se creó la <strong>Cámara Argentina de Flipping Inmobiliario (CAFI)</strong> para empezar a ordenar una actividad que crece pero todavía carece de estadísticas y estándares propios de la construcción. La prensa especializada (Ámbito, La Capital, REMAX) reporta rentabilidades de hasta el <strong>20% en dólares</strong> en los casos mejor ejecutados, y un caso de referencia publicado en Río Negro ilustra la lógica del negocio: una propiedad comprada en USD 65.000, reciclada por USD 10.000, vendida en USD 100.000 — un margen del 33% sobre el costo total, aunque en una plaza (Neuquén) distinta a la analizada acá y usado sólo como ejemplo de la mecánica.</p>
+  <p>El marco de referencia más citado por los propios operadores del sector es la <strong>regla del 70%</strong>, popularizada en español por Virgilio Raiden (autor de <em>"Compra, Remodela, Vende, Gana"</em> y fundador de la incubadora Flipping Master):</p>
+  <div class="formula">Precio máximo de compra&nbsp;=&nbsp;(ARV&nbsp;×&nbsp;0,70)&nbsp;−&nbsp;Costo de reforma<br><span style="color:var(--ink-faint)">ARV = valor de reventa estimado de la propiedad ya terminada ("after repair value")</span></div>
+  <p>La regla existe para dejar un colchón de 30% del ARV que absorba costos de transacción, impuestos, financiamiento, tiempo de venta e imprevistos de obra — precisamente los rubros que más se subestiman al armar un business plan optimista. La usamos como test de sanidad en cada zona y en el modelo económico de §10.</p>
+</section>
+
+<!-- 04 METODOLOGIA -->
+<section id="metodo" class="wrap">
+  <div class="sec-head"><span class="sec-num">04</span><h2>Metodología y fuentes</h2></div>
+  <p>Los precios de compra ("a reciclar" / "a refaccionar" / "a demoler") y de venta (terminada / a estrenar) se relevaron en portales de anuncios (Zonaprop, Argenprop, Mercado Libre Inmuebles) y se contrastaron con índices de barrio publicados por prensa especializada (Infobae, Ámbito, La Nación, iProfesional, Reporte Inmobiliario, Servidos.ar) entre agosto y septiembre de 2026. Son <strong>precios de publicación (asking price), no de cierre</strong> — la brecha habitual reportada para Belgrano es de 7-12%, y la usamos como proxy razonable para el resto del corredor.</p>
+  <div class="callout">
+    <h3>Nota sobre las fuentes de audio (Spotify)</h3>
+    <p style="margin-bottom:0">El acceso directo a <span class="mono">open.spotify.com</span> está bloqueado por la política de red de este entorno de ejecución (egress restringido a nivel de organización), por lo que no pudimos escuchar ni transcribir los dos episodios puntuales enviados. Identificamos que corresponden, con alta probabilidad, al universo de <strong>"La Fiebre del Ladrillo"</strong> (Julio "HooL" Plaza) y/o <strong>"Flipping Master – El Podcast"</strong> (Virgilio Raiden), los dos podcasts en español más asociados a experiencias reales de flipping en la región. Incorporamos su metodología pública documentada (regla del 70%, foco en el precio de compra, control de costos de obra, riesgo de falta de experiencia) tal como aparece en prensa, su libro y sus blogs. Si nos compartís un resumen o la transcripción de los dos episodios puntuales, podemos incorporar citas textuales específicas y ajustar las conclusiones.</p>
+  </div>
+</section>
+
+<!-- 05 SUPUESTOS -->
+<section id="supuestos" class="wrap">
+  <div class="sec-head"><span class="sec-num">05</span><h2>Supuestos del modelo financiero</h2></div>
+
+  <h3 style="font-size:1.05rem;margin-bottom:10px;">Costo de construcción / reciclaje (USD/m²)</h3>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Nivel</th><th class="num">USD/m²</th><th>Uso recomendado</th></tr></thead>
+      <tbody>
+        <tr><td>Intervención parcial (sin tocar estructura ni instalaciones completas)</td><td class="num mono">550 – 700</td><td>Único escenario donde el supuesto original de USD 600/m² es realista</td></tr>
+        <tr><td>Reforma integral estándar</td><td class="num mono">900 – 1.200</td><td>Piso realista 2026 (CAC / APYMECO) para reciclaje completo con terminación competitiva</td></tr>
+        <tr><td>Reforma integral media-alta / obra nueva</td><td class="num mono">1.200 – 1.500</td><td>Necesario para competir en Belgrano R, Palermo Chico, La Lucila, Beccar/San Isidro premium</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:12px;font-size:.9rem;color:var(--ink-soft);">El costo de construcción en dólares subió <strong>+17,2%</strong> entre septiembre 2025 y marzo 2026 por atraso cambiario (APYMECO). Usamos USD 900-1.300/m² como rango base del modelo en §10, y mantenemos USD 600/m² sólo como referencia de contraste con el supuesto original.</p>
+
+  <h3 style="font-size:1.05rem;margin:26px 0 10px;">Costos de transacción e impuestos (aplican sobre el valor de cada operación)</h3>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Concepto</th><th class="num">%</th><th>Quién lo paga</th></tr></thead>
+      <tbody>
+        <tr><td>Comisión inmobiliaria</td><td class="num mono">3% + IVA (≈3,63%)</td><td>Comprador y/o vendedor según convenga con la inmobiliaria</td></tr>
+        <tr><td>Honorarios de escribanía</td><td class="num mono">1% – 2% + IVA</td><td>Comprador (habitualmente)</td></tr>
+        <tr><td>Impuesto de sellos (CABA)</td><td class="num mono">3,6% total (1,8% c/u)</td><td>Compartido comprador / vendedor</td></tr>
+        <tr><td>Impuesto a las Ganancias (cedular)</td><td class="num mono">15% sobre la ganancia</td><td>Vendedor — aplica a inmuebles adquiridos después del 01/01/2018 (ITI derogado por Ley 27.743 en 2024)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:12px;font-size:.9rem;color:var(--ink-soft);">Costo total adicional de comprar en CABA: ~7-10% del valor. En Provincia de Buenos Aires (localidades de GBA Norte) los porcentajes de sellos y honorarios son similares pero conviene validarlos con el Colegio de Escribanos de PBA, que puede tener alícuotas levemente distintas. Operar a través de una sociedad (en vez de persona física) cambia el tratamiento impositivo de la ganancia — a evaluar con un contador antes de escalar el negocio.</p>
+</section>
+
+<!-- 06 CABA NORTE -->
+<section id="caba" class="wrap-wide">
+  <div class="sec-head"><span class="sec-num">06</span><h2>Zona Norte de CABA</h2></div>
+  <p class="lede">Ocho barrios, del ticket de entrada más bajo al segmento de alta gama. Los rangos son USD/m² sobre superficie cubierta de la propiedad a reciclar y de la propiedad terminada comparable.</p>
+
+  <div class="zone-grid">
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Saavedra</h3><span class="chip good">Potencial alto</span></div>
+      <span class="tag">Comuna 12 · momentum +9,4% i.a. (líder del corredor)</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">900–1.600</div><div class="l">USD/m² a reciclar</div></div>
+        <div class="stat-tile"><div class="v">2.000–2.900</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">20–35%</div><div class="l">margen bruto est.</div></div>
+      </div>
+      <p>El barrio con mejor tendencia de crecimiento porcentual de todo el corredor (departamentos +9,38% i.a. en algunos relevamientos de 2026), lo que suma apreciación pasiva al margen de reforma. Zonaprop lista 26 propiedades "a reciclar" en la zona.</p>
+      <blockquote>26 propiedades "a reciclar" activas en Zonaprop Saavedra; casas de 3 ambientes en el entorno de USD 255.000–290.000 dan referencia del ticket típico del barrio.<cite>Zonaprop · Ámbito, ago-sept 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Villa Urquiza</h3><span class="chip good">Potencial alto</span></div>
+      <span class="tag">Comuna 12 · +8% i.a. · mayor stock "a reciclar" del corredor</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">1.000–1.700</div><div class="l">USD/m² a reciclar</div></div>
+        <div class="stat-tile"><div class="v">2.200–2.900</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">25–35%</div><div class="l">margen bruto est.</div></div>
+      </div>
+      <p>Mejor relación riesgo/retorno del relevamiento: ticket de entrada bajo, alto volumen de oferta a reciclar (60 casas de +50 años, 36 propiedades "a refaccionar", 13 PH "a reciclar" listados en Zonaprop) y demanda comprobada — está entre los 10 barrios más buscados de CABA.</p>
+      <blockquote>Casa a reciclar sobre lote de 217 m² cerca de Plaza Rama, señalada como la mejor relación costo-beneficio del barrio. Comparable terminado: casa a estrenar de 220 m² cub. en USD 580.000 (≈USD 2.636/m²).<cite>Zonaprop · Argenprop, sept 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Belgrano (Bajo Belgrano / general)</h3><span class="chip good">Potencial alto</span></div>
+      <span class="tag">Comuna 13 · +17% i.a. · mejor combo volumen + precio</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">900–1.800</div><div class="l">USD/m² a reciclar</div></div>
+        <div class="stat-tile"><div class="v">2.900–3.350</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">30–40%</div><div class="l">margen bruto est.</div></div>
+      </div>
+      <p>El barrio con mejor combinación de volumen de oferta a reciclar y techo de reventa alto y estable del relevamiento. Ideal como núcleo del pipeline de adquisiciones recurrentes, no sólo operaciones puntuales.</p>
+      <blockquote>Casa de 30 años, 191 m² cub. + 135 m² desc., USD 290.000 (≈USD 890/m²) en Belgrano Chico. Otro ejemplo en Mercado Libre: 134 m² en USD 125.000 (≈USD 933/m²).<cite>Argenprop · Mercado Libre, sept 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Belgrano R / Belgrano Chico</h3><span class="chip warn">Potencial medio</span></div>
+      <span class="tag">Sub-zona premium · lotes grandes · ticket alto</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">1.800–2.800</div><div class="l">USD/m² a reciclar</div></div>
+        <div class="stat-tile"><div class="v">3.500+</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">15–25%</div><div class="l">margen bruto est.</div></div>
+      </div>
+      <p>El valor de la tierra empuja el precio de entrada muy por encima del resto de Belgrano. Menor margen porcentual, pero mayor margen absoluto por operación dado el ticket. Requiere capital robusto y ciclos de venta más largos.</p>
+      <blockquote>Casona a reciclar en Av. de los Incas, 576 m² cub. / 630 m² de lote, pórtico de mármol y patio andaluz. Comparable de reventa: casa inglesa totalmente reciclada sobre lote de 8,67×28,50 m con pileta climatizada.<cite>Portales de nicho Belgrano R, sept 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Colegiales</h3><span class="chip good">Potencial medio-alto</span></div>
+      <span class="tag">Comuna 13 · +7% i.a. · en gentrificación desde Palermo/Chacarita</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">1.100–1.900</div><div class="l">USD/m² a reciclar</div></div>
+        <div class="stat-tile"><div class="v">2.300–3.100</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">20–35%</div><div class="l">margen bruto est.</div></div>
+      </div>
+      <p>El "hermano más accesible" de Belgrano/Núñez, con revalorización activa. Predominan los PH sobre lotes chicos de mitad del siglo XX (37 propiedades "a reciclar" listadas en Zonaprop). Buen punto de entrada por ticket más bajo que Belgrano.</p>
+      <blockquote>PH 2 plantas a reciclar con patio y terraza a 300 m de Av. Federico Lacroze; PH 3 ambientes de 50 m² cub. + 36 m² desc.<cite>Zonaprop, sept 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Núñez</h3><span class="chip warn">Potencial medio</span></div>
+      <span class="tag">Comuna 13 · +6% i.a. · el barrio más caro del corredor CABA</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">1.400–2.200</div><div class="l">USD/m² a reciclar</div></div>
+        <div class="stat-tile"><div class="v">2.200–3.440</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">25–30%</div><div class="l">margen bruto est.</div></div>
+      </div>
+      <p>Encabeza el ranking de barrios más caros de CABA, pero con alta dispersión interna: "Núñez River" (junto al Río/Libertador) sostiene los valores más altos y consistentes; el interior, cerca de las vías, es más económico. Ticket de entrada alto.</p>
+      <blockquote>Oportunidad a reciclar en Lomas de Núñez, lote de 8,66×37,33 m (320 m²); casa 2 plantas con cochera sobre lote de 8,66×17 m.<cite>Argenprop, sept 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Coghlan</h3><span class="chip warn">Potencial medio</span></div>
+      <span class="tag">Comuna 12 · barrio "village" · bajo volumen de oferta</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">1.000–1.700</div><div class="l">USD/m² a reciclar</div></div>
+        <div class="stat-tile"><div class="v">1.700–2.800</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">15–30%</div><div class="l">margen bruto est.</div></div>
+      </div>
+      <p>Barrio chico y muy buscado (top 10 CABA), pero con sólo 8 propiedades "a reciclar" activas en Zonaprop — menor liquidez y mayor dispersión de precios entre fuentes. Conviene tasar cada oportunidad puntualmente antes de generalizar.</p>
+      <blockquote>Casa de 50 años, 2 dormitorios, 122 m² en Donado al 3200. Comparable terminado: casa reciclada de 3 dormitorios, 122 m² cub., USD 269.000 (≈USD 2.205/m²).<cite>Argenprop, sept 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Palermo Chico / Botánico / Las Cañitas</h3><span class="chip warn">Potencial medio</span></div>
+      <span class="tag">Segmento alta gama · exige terminación de diseño</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">1.800–2.800</div><div class="l">USD/m² a reciclar</div></div>
+        <div class="stat-tile"><div class="v">3.200–4.000</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">10–25%</div><div class="l">margen bruto est.</div></div>
+      </div>
+      <p>El techo de reventa más alto de CABA (Las Cañitas supera puntualmente los USD 4.000/m²), pero el margen porcentual es el más ajustado del relevamiento: acá el "flip barato" no funciona, hay que competir en diseño y terminación. Reservar para operaciones puntuales, no como volumen recurrente.</p>
+      <blockquote>Petit-hotel a reciclar en Charcas al 3900 (Palermo Botánico), 150 m² cub., USD 385.000 (≈USD 2.567/m²). Comparable terminado: casa 2 dorm./104 m² en Palermo Chico, USD 310.000 (≈USD 2.981/m²).<cite>Argenprop, sept 2026</cite></blockquote>
+    </div>
+
+  </div>
+</section>
+
+<!-- 07 GBA NORTE -->
+<section id="gba" class="wrap-wide">
+  <div class="sec-head"><span class="sec-num">07</span><h2>GBA Norte</h2></div>
+  <p class="lede">Lotes más grandes que en CABA (200-350 m² es lo típico, hasta 800-1.000 m² en zonas residenciales), lo que habilita una segunda palanca de valor además del reciclaje: <strong>ampliar m² cubiertos aprovechando el FOT</strong> y vender a precio de "a estrenar". Los precios "a reciclar/demoler" están calculados, en varios casos, sobre superficie de <strong>lote</strong> (no cubierta), que es la métrica correcta para valuar terreno + demolición.</p>
+
+  <div class="zone-grid">
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Boulogne</h3><span class="chip good">Potencial alto</span></div>
+      <span class="tag">San Isidro · mejor relación entrada/margen del relevamiento</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">350–600</div><div class="l">USD/m² a reciclar (lote)</div></div>
+        <div class="stat-tile"><div class="v">1.400–2.000</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">Ticket USD 70k–160k</div><div class="l">entrada típica</div></div>
+      </div>
+      <p>El punto de entrada más accesible de todo San Isidro, a metros de Beccar/Acassuso. Boulogne Sur Mer cayó -3,6% mensual en enero 2026 — señal de margen de negociación adicional a la compra. Probablemente el mejor primer proyecto piloto del plan.</p>
+      <blockquote>Chalet a reciclar sobre lote de 219 m² con pileta de material 7×4×1,70 m; lote de 227 m² "a reciclar o demoler". Terminada a nuevo en doble lote con pileta y quincho: USD 260.000–350.000+.<cite>Argenprop, sept 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Villa Adelina</h3><span class="chip good">Potencial alto</span></div>
+      <span class="tag">Límite San Isidro / Vicente López · ticket bajo</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">400–650</div><div class="l">USD/m² a reciclar (lote)</div></div>
+        <div class="stat-tile"><div class="v">1.300–1.900</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">Ticket USD 74k–250k</div><div class="l">entrada típica</div></div>
+      </div>
+      <p>Cayó -3,9% mensual en enero 2026, otra señal de zona con margen de negociación a favor del comprador en el momento del relevamiento. Buen candidato de entrada junto con Boulogne.</p>
+      <blockquote>Casa a reciclar de dos plantas sobre lote de 308 m² (8,66×35,5 m), USD 139.900 (≈USD 454/m² de lote). Terrenos desde USD 74.000.<cite>ViaTigre · Argenprop, sept 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Olivos</h3><span class="chip good">Potencial alto</span></div>
+      <span class="tag">Vicente López · alta actividad de desarrollos "a estrenar"</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">900–1.500</div><div class="l">USD/m² a reciclar</div></div>
+        <div class="stat-tile"><div class="v">2.200–3.500</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">Ticket USD 100k–250k</div><div class="l">entrada típica</div></div>
+      </div>
+      <p>Buen volumen de oferta a reciclar (28 avisos "a reciclar", 17 "a refaccionar", 112 terrenos activos en Zonaprop) conviviendo con un mercado de desarrollos activo (15 proyectos a estrenar relevados por Reporte Inmobiliario en 2026), lo que valida demanda de producto terminado de categoría.</p>
+      <blockquote>Casa a reciclar con local comercial sobre lote con zonificación R2 (permite ampliar/densificar). Triplex a estrenar de categoría desde USD 420.000, entrega marzo 2026.<cite>Zonaprop · Reporte Inmobiliario, 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>La Lucila</h3><span class="chip good">Potencial alto (ticket alto)</span></div>
+      <span class="tag">Corredor Libertador · el sub-mercado más caro de GBA Norte</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">900–1.600</div><div class="l">USD/m² a reciclar (tierra)</div></div>
+        <div class="stat-tile"><div class="v">3.800–4.300+</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">Mayor diferencial</div><div class="l">bruto del relevamiento</div></div>
+      </div>
+      <p>El diferencial más alto de todo el relevamiento entre comprar terreno con casa a demoler y vender terminado, si el FOT permite ampliar m² cubiertos. Requiere el mayor capital y el ciclo de venta más largo del set — para operaciones puntuales, no volumen.</p>
+      <blockquote>Lote a demoler/reciclar de ~236 m² con planos de demolición y de obra nueva ya aprobados por el municipio (deuda de derechos pagada) — trámite municipal resuelto de antemano.<cite>Argenprop · Trovit, sept 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Acassuso</h3><span class="chip good">Potencial medio-alto</span></div>
+      <span class="tag">San Isidro · mercado líquido (620 propiedades activas)</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">900–1.400</div><div class="l">USD/m² a reciclar</div></div>
+        <div class="stat-tile"><div class="v">2.200–3.200</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">168</div><div class="l">casas activas en Zonaprop</div></div>
+      </div>
+      <p>Buena liquidez de mercado. Menos avisos explícitos "a reciclar" que Olivos/Beccar — conviene buscar bajo "terrenos" (21 activos), ya que buena parte del stock son casonas de lote grande sobre el corredor Libertador con alto valor de tierra.</p>
+      <blockquote>Precio de referencia de zona: USD 2.700/m² (rango USD 2.200-3.200 según microzona). Precio promedio de venta de departamentos: USD 229.023.<cite>Zonaprop GBA Norte, feb 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>San Isidro (centro)</h3><span class="chip good">Potencial medio-alto</span></div>
+      <span class="tag">FOT 1,0 habilita duplicar m² cubiertos en lotes tipo</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">850–1.400</div><div class="l">USD/m² a reciclar</div></div>
+        <div class="stat-tile"><div class="v">2.400–3.200</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">RMB2 / FOT 1,0</div><div class="l">zonificación tipo</div></div>
+      </div>
+      <p>El mejor ejemplo concreto de la estrategia "terreno + ampliación": un lote de 330 m² con zonificación RMB2 (FOT 1,0 / FOS 0,5) permite construir hasta 330 m² cubiertos — casi duplicando lo existente. Usado como caso de estudio del modelo económico en §10.</p>
+      <blockquote>Lote de 330 m² (10×33 m) en Chile al 1000, a metros del centro comercial, estación Mitre y catedral, con casa vieja a demoler.<cite>Argenprop, sept 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Beccar</h3><span class="chip good">Potencial medio-alto</span></div>
+      <span class="tag">San Isidro · 342 casas + 730 propiedades activas</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">800–1.300</div><div class="l">USD/m² a reciclar (lote)</div></div>
+        <div class="stat-tile"><div class="v">2.000–3.000</div><div class="l">USD/m² terminado (3.500+ premium)</div></div>
+        <div class="stat-tile"><div class="v">Mediana USD 350k</div><div class="l">casas 3 amb., stock escaso</div></div>
+      </div>
+      <p>Mucho stock y escasez relativa en el segmento de casas 3 ambientes (USD 250.000-380.000, mediana USD 350.000) — señal de demanda sólida y buena velocidad de reventa. El segmento premium (ribera/Libertador) supera los USD 3.500/m².</p>
+      <blockquote>Terreno de 329 m² en Tte. Gral. Lonardi 3054, USD 268.000 (≈USD 815/m² de lote). Direcciones activas "a reciclar": Riobamba 2529, Julián Navarro 2100, Intendente Becco 2500.<cite>Zonaprop · Argenprop, sept 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Vicente López (centro) / Florida</h3><span class="chip warn">Potencial medio</span></div>
+      <span class="tag">Partido de referencia: USD 1.455/m² promedio en casas (+7,5% i.a.)</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">550–1.000</div><div class="l">USD/m² a reciclar</div></div>
+        <div class="stat-tile"><div class="v">1.800–2.700</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">Ticket desde USD 160k</div><div class="l">entrada típica</div></div>
+      </div>
+      <p>Florida Oeste cayó -4,4% mensual en enero 2026, la mayor caída del relevamiento — oportunidad de negociación puntual. El índice de "casas" del partido (USD 1.455/m², +7,5% i.a.) es la mayor suba interanual de todo el AMBA en esa tipología.</p>
+      <blockquote>Casa a reciclar en Estanislao del Campo 1300, Florida Oeste, lote de 8,66×28 m (≈242 m²), ~70 m² cub., a 1 cuadra de Av. San Martín y 2 de Panamericana.<cite>Argenprop, sept 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>San Fernando (incl. Victoria)</h3><span class="chip bad">Potencial variable — requiere debida diligencia</span></div>
+      <span class="tag">Mayor dispersión de precios del relevamiento</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">350–2.000</div><div class="l">USD/m² a reciclar (muy disperso)</div></div>
+        <div class="stat-tile"><div class="v">1.200–2.500</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">USD 914 vs 3.884</div><div class="l">Infico vs. La Lucila, mismo informe</div></div>
+      </div>
+      <p>El barrio Infico aparece como el más barato de toda la Zona Norte (USD 914/m²), mientras Victoria (cerca del río) puede superar los USD 2.000/m² — la brecha intra-partido es la más grande del relevamiento. No usar un precio "de partido" para tasar: hay que segmentar calle por calle antes de comprar.</p>
+      <blockquote>Lote de 350 m² sobre calle French al 3100 (Victoria), "a refaccionar", ideal para construir a medida. Lote de 8,60×26 m (≈224 m²) con ~80 m² cub. a reciclar.<cite>Argenprop, sept 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Tigre centro / Don Torcuato / Ricardo Rojas</h3><span class="chip warn">Potencial medio</span></div>
+      <span class="tag">Ticket de entrada más accesible del relevamiento</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">400–900</div><div class="l">USD/m² a reciclar</div></div>
+        <div class="stat-tile"><div class="v">1.150–1.700</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">Ticket USD 53k–145k</div><div class="l">ejemplos relevados</div></div>
+      </div>
+      <p>Partido de Tigre con índice de casas de USD 1.288/m² promedio, aunque con dispersión enorme dentro del mismo partido por la presencia de Nordelta (rango total USD 287-4.767/m²). El margen bruto por m² es más ajustado a costo de obra real; conviene priorizar lotes grandes para sumar m² cubiertos en vez de reciclar 1:1.</p>
+      <blockquote>Casa a reciclar en Reynoso 700, Don Torcuato Este, 110 m² cub., USD 125.000 (≈USD 1.136/m²). Casa en América 2654, Don Torcuato Oeste, USD 53.000 sobre 489 m² de terreno (≈USD 108/m² de lote).<cite>Mercado Libre · Argenprop, sept 2026</cite></blockquote>
+    </div>
+
+    <div class="zone-card">
+      <div class="zone-card-head"><h3>Rincón de Milberg</h3><span class="chip warn">Potencial medio</span></div>
+      <span class="tag">Tigre · proximidad a Nordelta</span>
+      <div class="stat-row">
+        <div class="stat-tile"><div class="v">600–1.100</div><div class="l">USD/m² a reciclar</div></div>
+        <div class="stat-tile"><div class="v">1.350–2.000</div><div class="l">USD/m² terminado</div></div>
+        <div class="stat-tile"><div class="v">Ticket USD 72k–180k</div><div class="l">ejemplos relevados</div></div>
+      </div>
+      <p>Se beneficia del efecto Nordelta en el precio de reventa de casas a estrenar cercanas, pero la oferta a reciclar es heterogénea en tamaño y estado. Validar cada lote puntualmente.</p>
+      <blockquote>Casa a reciclar en Esmeralda 345 (esquina), lote de 190,52 m², 141 m² cub. Comparable a estrenar cercano: casa nueva de 105 m² en USD 210.000 (≈USD 2.000/m²).<cite>Argenprop, sept 2026</cite></blockquote>
+    </div>
+
+  </div>
+</section>
+
+<!-- 08 MATRIZ -->
+<section id="matriz" class="wrap-wide">
+  <div class="sec-head"><span class="sec-num">08</span><h2>Matriz comparativa</h2></div>
+  <p class="lede">Las 19 zonas ordenadas por potencial. "Margen bruto" es sobre costo total antes de impuesto a las ganancias, a costo de obra real (no al supuesto de USD 600/m²).</p>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr><th>Zona</th><th>Región</th><th class="num">USD/m² a reciclar</th><th class="num">USD/m² terminado</th><th class="num">Margen bruto</th><th>Potencial</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Villa Urquiza</td><td>CABA</td><td class="num mono">1.000–1.700</td><td class="num mono">2.200–2.900</td><td class="num mono">25–35%</td><td><span class="chip good">Alto</span></td></tr>
+        <tr><td>Saavedra</td><td>CABA</td><td class="num mono">900–1.600</td><td class="num mono">2.000–2.900</td><td class="num mono">20–35%</td><td><span class="chip good">Alto</span></td></tr>
+        <tr><td>Belgrano (general)</td><td>CABA</td><td class="num mono">900–1.800</td><td class="num mono">2.900–3.350</td><td class="num mono">30–40%</td><td><span class="chip good">Alto</span></td></tr>
+        <tr><td>Boulogne</td><td>GBA Norte</td><td class="num mono">350–600*</td><td class="num mono">1.400–2.000</td><td class="num mono">n/d — mejor ratio entrada/margen</td><td><span class="chip good">Alto</span></td></tr>
+        <tr><td>Villa Adelina</td><td>GBA Norte</td><td class="num mono">400–650*</td><td class="num mono">1.300–1.900</td><td class="num mono">n/d — buen ticket de entrada</td><td><span class="chip good">Alto</span></td></tr>
+        <tr><td>Olivos</td><td>GBA Norte</td><td class="num mono">900–1.500</td><td class="num mono">2.200–3.500</td><td class="num mono">n/d — potenciado por desarrollos activos</td><td><span class="chip good">Alto</span></td></tr>
+        <tr><td>La Lucila</td><td>GBA Norte</td><td class="num mono">900–1.600*</td><td class="num mono">3.800–4.300+</td><td class="num mono">Mayor diferencial bruto absoluto</td><td><span class="chip good">Alto (ticket alto)</span></td></tr>
+        <tr><td>Colegiales</td><td>CABA</td><td class="num mono">1.100–1.900</td><td class="num mono">2.300–3.100</td><td class="num mono">20–35%</td><td><span class="chip good">Medio-alto</span></td></tr>
+        <tr><td>Acassuso</td><td>GBA Norte</td><td class="num mono">900–1.400</td><td class="num mono">2.200–3.200</td><td class="num mono">n/d — mercado líquido</td><td><span class="chip good">Medio-alto</span></td></tr>
+        <tr><td>San Isidro (centro)</td><td>GBA Norte</td><td class="num mono">850–1.400*</td><td class="num mono">2.400–3.200</td><td class="num mono">n/d — vía ampliación FOT</td><td><span class="chip good">Medio-alto</span></td></tr>
+        <tr><td>Beccar</td><td>GBA Norte</td><td class="num mono">800–1.300*</td><td class="num mono">2.000–3.000</td><td class="num mono">n/d — buena velocidad de reventa</td><td><span class="chip good">Medio-alto</span></td></tr>
+        <tr><td>Núñez</td><td>CABA</td><td class="num mono">1.400–2.200</td><td class="num mono">2.200–3.440</td><td class="num mono">25–30%</td><td><span class="chip warn">Medio</span></td></tr>
+        <tr><td>Belgrano R / Chico</td><td>CABA</td><td class="num mono">1.800–2.800</td><td class="num mono">3.500+</td><td class="num mono">15–25%</td><td><span class="chip warn">Medio (ticket alto)</span></td></tr>
+        <tr><td>Coghlan</td><td>CABA</td><td class="num mono">1.000–1.700</td><td class="num mono">1.700–2.800</td><td class="num mono">15–30%</td><td><span class="chip warn">Medio</span></td></tr>
+        <tr><td>Palermo Chico / Cañitas</td><td>CABA</td><td class="num mono">1.800–2.800</td><td class="num mono">3.200–4.000</td><td class="num mono">10–25%</td><td><span class="chip warn">Medio</span></td></tr>
+        <tr><td>Vicente López (centro) / Florida</td><td>GBA Norte</td><td class="num mono">550–1.000*</td><td class="num mono">1.800–2.700</td><td class="num mono">n/d</td><td><span class="chip warn">Medio</span></td></tr>
+        <tr><td>Tigre centro / Don Torcuato / R. Rojas</td><td>GBA Norte</td><td class="num mono">400–900</td><td class="num mono">1.150–1.700</td><td class="num mono">Ajustado a costo real</td><td><span class="chip warn">Medio</span></td></tr>
+        <tr><td>Rincón de Milberg</td><td>GBA Norte</td><td class="num mono">600–1.100*</td><td class="num mono">1.350–2.000</td><td class="num mono">n/d</td><td><span class="chip warn">Medio</span></td></tr>
+        <tr><td>San Fernando (incl. Victoria)</td><td>GBA Norte</td><td class="num mono">350–2.000*</td><td class="num mono">1.200–2.500</td><td class="num mono">Muy variable</td><td><span class="chip bad">Variable — due diligence</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:10px;font-size:.82rem;color:var(--ink-faint);">* En GBA Norte, el precio "a reciclar" suele estar calculado sobre superficie de <strong>lote</strong>, no cubierta — reflejar en la due diligence real de cada propiedad.</p>
+</section>
+
+<!-- 09 SEGMENTOS -->
+<section id="segmentos" class="wrap-wide">
+  <div class="sec-head"><span class="sec-num">09</span><h2>Segmentación por nivel de inversión</h2></div>
+  <p class="lede">Capital total estimado (compra + obra + costos blandos y de cierre) por operación.</p>
+  <div class="seg-grid">
+    <div class="seg-card">
+      <h3>Entry</h3>
+      <div class="range">&lt; USD 150.000</div>
+      <ul>
+        <li>Boulogne</li>
+        <li>Villa Adelina</li>
+        <li>Tigre centro / Don Torcuato</li>
+        <li>Coghlan (PH chico)</li>
+        <li>San Fernando (Infico y similares)</li>
+      </ul>
+    </div>
+    <div class="seg-card">
+      <h3>Core</h3>
+      <div class="range">USD 150.000–300.000</div>
+      <ul>
+        <li>Villa Urquiza</li>
+        <li>Saavedra</li>
+        <li>Colegiales</li>
+        <li>Vicente López centro / Florida</li>
+        <li>Rincón de Milberg</li>
+        <li>Beccar (entrada)</li>
+      </ul>
+    </div>
+    <div class="seg-card">
+      <h3>Upper-mid</h3>
+      <div class="range">USD 300.000–550.000</div>
+      <ul>
+        <li>Belgrano (general)</li>
+        <li>Núñez</li>
+        <li>San Isidro (centro)</li>
+        <li>Acassuso</li>
+        <li>Olivos</li>
+        <li>Beccar (premium)</li>
+      </ul>
+    </div>
+    <div class="seg-card">
+      <h3>Premium</h3>
+      <div class="range">&gt; USD 550.000</div>
+      <ul>
+        <li>Belgrano R / Chico</li>
+        <li>Palermo Chico / Botánico / Cañitas</li>
+        <li>La Lucila</li>
+        <li>Beccar / San Isidro ribera premium</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 10 MODELO ECONOMICO -->
+<section id="modelo" class="wrap">
+  <div class="sec-head"><span class="sec-num">10</span><h2>Modelo económico de una operación tipo</h2></div>
+  <p>Dos casos ilustrativos —no propiedades verificadas puntualmente— construidos con los rangos de §06-07, para mostrar el efecto real de pasar de USD 600/m² a un costo de obra 2026 realista, y el efecto de la disciplina de compra (regla del 70%) sobre el resultado final.</p>
+
+  <div class="model-block">
+    <h3>Caso 1 — Reciclaje puro en Villa Urquiza</h3>
+    <div class="model-meta">Casa de 120 m² cubiertos · venta a los ~9 meses · comisión de venta 3,63% · Ganancias cedular 15%</div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Concepto</th><th class="num">Supuesto usuario<br>(USD 600/m²)</th><th class="num">Costo real 2026<br>(USD 900/m²), misma compra</th><th class="num">Costo real 2026 + compra y ARV disciplinados</th></tr></thead>
+        <tbody>
+          <tr><td>Precio de compra</td><td class="num mono">155.000</td><td class="num mono">155.000</td><td class="num mono">120.000</td></tr>
+          <tr><td>Costos de cierre compra (7%)</td><td class="num mono">10.850</td><td class="num mono">10.850</td><td class="num mono">8.400</td></tr>
+          <tr><td>Costo de construcción</td><td class="num mono">72.000</td><td class="num mono">108.000</td><td class="num mono">108.000</td></tr>
+          <tr><td>Contingencia de obra (10%)</td><td class="num mono">7.200</td><td class="num mono">10.800</td><td class="num mono">10.800</td></tr>
+          <tr><td>Costo financiero / holding (~5%)</td><td class="num mono">12.253</td><td class="num mono">14.233</td><td class="num mono">12.360</td></tr>
+          <tr><td><strong>Costo total</strong></td><td class="num mono"><strong>257.303</strong></td><td class="num mono"><strong>298.883</strong></td><td class="num mono"><strong>259.560</strong></td></tr>
+          <tr><td>ARV (precio de venta)</td><td class="num mono">306.000</td><td class="num mono">306.000</td><td class="num mono">348.000</td></tr>
+          <tr><td>Comisión de venta</td><td class="num mono">11.108</td><td class="num mono">11.108</td><td class="num mono">12.632</td></tr>
+          <tr><td>Ganancia bruta (antes de impuesto)</td><td class="num mono">37.589</td><td class="num mono" style="color:var(--bad)">−3.991</td><td class="num mono">75.808</td></tr>
+          <tr><td>Impuesto a las Ganancias (15%)</td><td class="num mono">5.638</td><td class="num mono">—</td><td class="num mono">11.371</td></tr>
+          <tr><td><strong>Ganancia neta</strong></td><td class="num mono"><strong>31.951</strong></td><td class="num mono" style="color:var(--bad)"><strong>−3.991</strong></td><td class="num mono"><strong>64.437</strong></td></tr>
+          <tr><td><strong>ROI sobre capital</strong></td><td class="num mono"><strong>12,4%</strong></td><td class="num mono" style="color:var(--bad)"><strong>−1,3%</strong></td><td class="num mono"><strong>24,8%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.9rem;color:var(--ink-soft);margin-top:12px;">La misma propiedad, comprada al mismo precio, pasa de un ROI de 12,4% a negativo apenas se corrige el supuesto de obra a un valor real de mercado. Comprando al piso del rango de Villa Urquiza y vendiendo cerca del techo del ARV (calidad de terminación + buena ubicación dentro del barrio), el negocio vuelve a ser sólido: 24,8% en ~9 meses.</p>
+  </div>
+
+  <div class="model-block">
+    <h3>Caso 2 — Terreno + ampliación en San Isidro centro</h3>
+    <div class="model-meta">Lote de 330 m² (zonificación RMB2, FOT 1,0) · demolición + obra nueva de 260 m² cubiertos · ciclo ~15 meses</div>
+    <div class="formula">Lote a USD 850/m² × 330 m² = USD 280.500 de compra · construcción nueva a USD 1.000/m² (vs. USD 600/m² del supuesto original) × 260 m² = USD 260.000</div>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Concepto</th><th class="num">Supuesto usuario<br>(USD 600/m²)</th><th class="num">Costo real 2026<br>(USD 1.000/m²), ARV medio</th><th class="num">Costo real 2026, ARV alto del rango</th></tr></thead>
+        <tbody>
+          <tr><td>Precio de compra (lote)</td><td class="num mono">280.500</td><td class="num mono">280.500</td><td class="num mono">280.500</td></tr>
+          <tr><td>Costos de cierre compra (7%)</td><td class="num mono">19.635</td><td class="num mono">19.635</td><td class="num mono">19.635</td></tr>
+          <tr><td>Demolición y permisos</td><td class="num mono">12.000</td><td class="num mono">12.000</td><td class="num mono">12.000</td></tr>
+          <tr><td>Costo de construcción (260 m²)</td><td class="num mono">156.000</td><td class="num mono">260.000</td><td class="num mono">260.000</td></tr>
+          <tr><td>Contingencia de obra (10%)</td><td class="num mono">15.600</td><td class="num mono">26.000</td><td class="num mono">26.000</td></tr>
+          <tr><td>Costo financiero / holding (~7%)</td><td class="num mono">33.861</td><td class="num mono">41.869</td><td class="num mono">41.869</td></tr>
+          <tr><td><strong>Costo total</strong></td><td class="num mono"><strong>517.596</strong></td><td class="num mono"><strong>640.004</strong></td><td class="num mono"><strong>640.004</strong></td></tr>
+          <tr><td>ARV (260 m² × USD/m²)</td><td class="num mono">728.000 (2.800)</td><td class="num mono">728.000 (2.800)</td><td class="num mono">780.000 (3.000)</td></tr>
+          <tr><td>Comisión de venta</td><td class="num mono">26.428</td><td class="num mono">26.428</td><td class="num mono">28.314</td></tr>
+          <tr><td>Ganancia bruta (antes de impuesto)</td><td class="num mono">183.976</td><td class="num mono">61.568</td><td class="num mono">111.682</td></tr>
+          <tr><td>Impuesto a las Ganancias (15%)</td><td class="num mono">27.596</td><td class="num mono">9.235</td><td class="num mono">16.752</td></tr>
+          <tr><td><strong>Ganancia neta</strong></td><td class="num mono"><strong>156.380</strong></td><td class="num mono"><strong>52.333</strong></td><td class="num mono"><strong>94.930</strong></td></tr>
+          <tr><td><strong>ROI sobre capital</strong></td><td class="num mono"><strong>30,2%</strong></td><td class="num mono"><strong>8,2%</strong></td><td class="num mono"><strong>14,8%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:.9rem;color:var(--ink-soft);margin-top:12px;">Acá el supuesto de USD 600/m² sobreestima el ROI en casi 4 veces (30,2% vs. 8,2% real). Este proyecto es de obra nueva completa —no reciclaje— por lo que el benchmark correcto no es la reforma (USD 900-1.200/m²) sino la construcción estándar (USD 900-1.300/m², CAC/APYMECO). El caso sigue siendo rentable a costo real, pero exige negociar el precio del lote y apuntar a la parte alta del rango de reventa de San Isidro para que el retorno justifique 15 meses de capital inmovilizado.</p>
+  </div>
+</section>
+
+<!-- 11 RIESGOS -->
+<section id="riesgos" class="wrap-wide">
+  <div class="sec-head"><span class="sec-num">11</span><h2>Riesgos y mitigantes</h2></div>
+  <div class="risk-grid">
+    <div class="risk-card">
+      <h3>Subestimar el costo de obra</h3>
+      <p style="margin:0;font-size:.9rem;color:var(--ink-soft)">Es, según todas las fuentes consultadas, la causa N°1 de fracaso en flipping — más que un error de tasación de mercado.</p>
+      <div class="mit"><strong>Mitigante</strong>Presupuestar siempre con MZV Arquitectura antes de ofertar por una propiedad, no después; aplicar la regla del 70% como filtro de compra, no como chequeo posterior.</div>
+    </div>
+    <div class="risk-card">
+      <h3>Desfasaje peso-dólar en la obra</h3>
+      <p style="margin:0;font-size:.9rem;color:var(--ink-soft)">El costo de construcción en dólares subió +17,2% entre sept. 2025 y marzo 2026 por atraso cambiario — la venta es en dólares pero buena parte de la obra se paga en pesos indexados a inflación.</p>
+      <div class="mit"><strong>Mitigante</strong>Comprar materiales críticos en dólares/anticipado cuando sea posible; construir el modelo con un colchón de +15-20% sobre el costo de obra vigente.</div>
+    </div>
+    <div class="risk-card">
+      <h3>Tiempos de venta más largos que lo previsto</h3>
+      <p style="margin:0;font-size:.9rem;color:var(--ink-soft)">Especialmente en segmento premium (Belgrano R, Palermo Chico, La Lucila) donde hay menos compradores calificados por operación.</p>
+      <div class="mit"><strong>Mitigante</strong>Diversificar el pipeline entre operaciones de ciclo corto (reciclaje CABA, 6-9 meses) y de ciclo largo (terreno+ampliación GBA, 12-16 meses) para no concentrar el capital en un solo horizonte de liquidez.</div>
+    </div>
+    <div class="risk-card">
+      <h3>Dispersión de precios dentro del mismo barrio</h3>
+      <p style="margin:0;font-size:.9rem;color:var(--ink-soft)">San Fernando (USD 914 a &gt;USD 2.000/m² dentro del mismo partido) y Tigre (USD 287 a USD 4.767/m² por el efecto Nordelta) muestran que un precio "de barrio" puede llevar a pagar de más o subestimar el ARV real.</p>
+      <div class="mit"><strong>Mitigante</strong>Tasación puntual calle por calle antes de ofertar; no usar el promedio de partido como precio de referencia de compra ni de venta.</div>
+    </div>
+    <div class="risk-card">
+      <h3>Marco impositivo y regulatorio en evolución</h3>
+      <p style="margin:0;font-size:.9rem;color:var(--ink-soft)">La reciente creación de la Cámara Argentina de Flipping Inmobiliario (CAFI) sugiere que la actividad podría empezar a estandarizarse o regularse con más detalle.</p>
+      <div class="mit"><strong>Mitigante</strong>Estructurar el vehículo societario con asesoría contable desde el inicio; monitorear la agenda de CAFI como fuente temprana de cambios normativos.</div>
+    </div>
+    <div class="risk-card">
+      <h3>Precios de publicación ≠ precios de cierre</h3>
+      <p style="margin:0;font-size:.9rem;color:var(--ink-soft)">Todos los rangos de este informe son de publicación (asking price); la brecha reportada en Belgrano es de 7-12%, y puede variar en otras zonas.</p>
+      <div class="mit"><strong>Mitigante</strong>Usar los rangos de este informe sólo como screening macro; toda oferta de compra debe basarse en tasación in situ y comparables de cierre reales de la cuadra.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 PROXIMOS PASOS -->
+<section id="pasos" class="wrap">
+  <div class="sec-head"><span class="sec-num">12</span><h2>Recomendaciones y próximos pasos</h2></div>
+  <div class="steps">
+    <div class="step">
+      <div>
+        <h3>Recalibrar el modelo financiero</h3>
+        <p>Reemplazar el supuesto único de USD 600/m² por el rango de USD 900-1.300/m² de §05 en toda planilla de evaluación, reservando USD 600/m² sólo para intervenciones parciales reales.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div>
+        <h3>Armar un pipeline de scouting semanal</h3>
+        <p>Alertas guardadas en Zonaprop/Argenprop/Mercado Libre para los filtros "a reciclar" / "a refaccionar" / "a demoler" en las 6 zonas de mayor potencial (Villa Urquiza, Saavedra, Belgrano, Boulogne, Villa Adelina, Olivos).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div>
+        <h3>Validar en terreno 5-10 propiedades candidatas</h3>
+        <p>Visitas presenciales con presupuesto preliminar de MZV Arquitectura para confirmar que el precio de mercado real (no el de publicación) cumple la regla del 70% antes de ofertar.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div>
+        <h3>Definir el vehículo societario y el esquema de financiamiento</h3>
+        <p>Evaluar con un contador el tratamiento impositivo más eficiente (persona física vs. sociedad) y la mezcla de capital propio / socios inversores / crédito para el primer lote de operaciones.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div>
+        <h3>Correr un piloto de dos operaciones en paralelo</h3>
+        <p>Una de ciclo corto en CABA (reciclaje, ej. Villa Urquiza o Boulogne) y una de ciclo largo en GBA (terreno + ampliación, ej. San Isidro centro), para validar el modelo real de costos y tiempos de MZV Arquitectura antes de escalar el pipeline.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div>
+        <h3>Sumarse a CAFI</h3>
+        <p>La Cámara Argentina de Flipping Inmobiliario es un canal temprano de estándares, red de proveedores y visibilidad del sector — vale la pena monitorear su agenda y evaluar la membresía.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="wrap-wide">
+  <div class="sec-head"><span class="sec-num">§</span><h2 style="font-size:1.1rem;">Fuentes</h2></div>
+  <p class="lede" style="margin-bottom:16px;">Precios de publicación relevados en Zonaprop, Argenprop y Mercado Libre Inmuebles entre agosto y septiembre de 2026, contrastados con:</p>
+  <ul class="src-list">
+    <li><a href="https://www.infobae.com/economia/2026/08/28/barrio-por-barrio-cuanto-vale-el-metro-cuadrado-en-la-ciudad-de-buenos-aires/">Infobae — Barrio por barrio, precio del m² en CABA (ago 2026)</a></li>
+    <li><a href="https://www.ambito.com/real-estate/cuanto-vale-hoy-el-m2-usado-caba-los-barrios-mas-caros-y-los-mas-baratos-y-donde-estan-las-oportunidades-n6222661">Ámbito — Precio del m² usado en CABA</a></li>
+    <li><a href="https://www.ambito.com/real-estate/mercado-inmobiliario-del-gba-se-freno-la-suba-precios-que-paso-y-cuanto-cuestan-las-propiedades-n6276744">Ámbito — Freno de precios en GBA</a></li>
+    <li><a href="https://www.lanacion.com.ar/tema/zona-norte-gba/">La Nación — Zona Norte GBA</a></li>
+    <li><a href="https://www.iprofesional.com/realestate/448329-sube-fuerte-el-costo-de-construccion-en-dolares-cuanto-hay-que-invertir-por-m2">iProfesional — Costo de construcción en dólares</a></li>
+    <li><a href="https://www.iprofesional.com/realestate/424238-mercado-inmobiliario-cuanto-vale-el-m2-en-los-diez-barrios-mas-buscados-de-caba">iProfesional — 10 barrios más buscados de CABA</a></li>
+    <li><a href="https://www.zonaprop.com.ar/blog/wp-content/uploads/2026/02/INDEX_GBA_NORTE_REPORTE_2026-01.pdf">Zonaprop — Índice GBA Norte (feb 2026)</a></li>
+    <li><a href="https://servidos.ar/precio-m2-caba">Servidos.ar — Mapa interactivo de precio por m² en CABA</a></li>
+    <li><a href="https://www.reporteinmobiliario.com/article5807-desarrollos-a-estrenar-en-olivos-2026">Reporte Inmobiliario — Desarrollos a estrenar en Olivos</a></li>
+    <li><a href="https://www.remax-vita.com.ar/inmobiliaria-remax/flipping-inmobiliario-el-negocio-de-comprar-casas-para-refaccionar-que-promete-hasta-20-de-rentabilidad-en-dolares-en-la-argentina/">RE/MAX Vita — Flipping inmobiliario en Argentina</a></li>
+    <li><a href="https://ladrillo.info/que-es-el-flipping-inmobiliario-el-negocio-de-reciclar-casas-gana-escala-y-en-argentina-se-armo-su-propia-camara/">Ladrillo.info — Nace la Cámara Argentina de Flipping Inmobiliario (CAFI)</a></li>
+    <li><a href="https://www.rionegro.com.ar/arquitectura/compro-en-us-65-mil-reciclo-por-10-mil-y-vendio-en-100-mil-asi-es-el-house-flipping-la-inversion-expres-que-crece-en-neuquen/">Río Negro — Caso ilustrativo de house flipping</a></li>
+    <li><a href="https://www.amazon.com/COMPRA-REMODELA-VENDE-GANA-Inmobiliario/dp/6310080466">Virgilio Raiden — "Compra, Remodela, Vende, Gana" (regla del 70%)</a></li>
+    <li>Julio "HooL" Plaza — Podcast "La Fiebre del Ladrillo" (Spotify, no accesible en este entorno — ver §04)</li>
+    <li>Mudafy.com.ar, Roomix.ai, Calpar Propiedades, Gazeta Norte, Saavedra Online, Archivo Técnico / APYMECO — índices y notas de referencia adicionales sobre precio por m² y costo de construcción</li>
+  </ul>
+  <p style="margin-top:24px;font-size:.8rem;color:var(--ink-faint);">Informe elaborado a partir de fuentes públicas en septiembre de 2026. Los precios son de publicación y las cifras de rentabilidad son ilustrativas — validar cada oportunidad puntual con tasación in situ y presupuesto de obra de MZV Arquitectura antes de comprometer capital.</p>
+</footer>
+
+</body>
+</html>
