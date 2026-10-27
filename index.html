@@ -28,7 +28,7 @@
 <section class="hb-historia">
 <style>
   .hb-historia{
-    --hb-teal:#1C9D8E; --hb-dark:#231f20; --hb-cream:#f7f5f1; --hb-sand:#efe9e0;
+    --hb-teal:#387900; --hb-dark:#231f20; --hb-cream:#f7f5f1; --hb-sand:#efe9e0;
     --hb-text:#2a2724; --hb-muted:#6c6760;
     font-family:"Segoe UI",system-ui,-apple-system,Helvetica,Arial,sans-serif;
     color:var(--hb-text); line-height:1.6; -webkit-font-smoothing:antialiased;
@@ -50,7 +50,7 @@
     background:linear-gradient(180deg,rgba(20,18,17,.25) 0%,rgba(20,18,17,.55) 100%); padding:24px;}
   .hb-hero-overlay .hb-eyebrow{color:#fff; opacity:.85;}
   .hb-hero h1{color:#fff; font-size:clamp(2rem,5.5vw,4rem); max-width:14ch; text-shadow:0 2px 24px rgba(0,0,0,.35);}
-  .hb-hero h1 span{color:#9fe6db;}
+  .hb-hero h1 span{color:#8fb73e;}
   .hb-hero .hb-sub{margin-top:18px; font-size:clamp(1rem,2vw,1.25rem); max-width:34ch; opacity:.95;}
 
   /* SECCIONES */
@@ -65,7 +65,7 @@
 
   /* TIMELINE */
   .hb-timeline{position:relative; max-width:760px; margin:48px auto 0; padding-left:0;}
-  .hb-timeline::before{content:""; position:absolute; left:90px; top:6px; bottom:6px; width:2px; background:linear-gradient(var(--hb-teal),rgba(28,157,142,.25));}
+  .hb-timeline::before{content:""; position:absolute; left:90px; top:6px; bottom:6px; width:2px; background:linear-gradient(var(--hb-teal),rgba(56,121,0,.25));}
   .hb-tl{position:relative; display:grid; grid-template-columns:90px 1fr; gap:28px; padding:0 0 38px 0;}
   .hb-tl:last-child{padding-bottom:0;}
   .hb-tl-year{font-size:1.5rem; font-weight:800; color:var(--hb-teal); text-align:right; line-height:1.1;}
@@ -91,7 +91,8 @@
   .hb-stat .l{font-size:.95rem; color:var(--hb-muted); margin-top:8px;}
 
   /* CTA */
-  .hb-cta{background:var(--hb-teal); color:#fff; text-align:center;}
+  .hb-cta{background:var(--hb-teal); color:#fff; text-align:center; margin:0;}
+  .hb-cta .hb-wrap{display:flex; flex-direction:column; align-items:center; text-align:center;}
   .hb-cta h2{color:#fff;}
   .hb-cta p{opacity:.95; max-width:42ch; margin:0 auto 28px;}
   .hb-btn{display:inline-block; background:#fff; color:var(--hb-dark); font-weight:700; text-decoration:none;
@@ -147,7 +148,7 @@
 <div class="hb-hero">
   <div class="hb-hero-media">
     <!-- ⏳ FONDO ESTÁTICO TEMPORAL (hasta tener el video 16:9). Reemplazá el src por la URL de TN al publicar. -->
-    <img src="https://d1a9qnv764bsoo.cloudfront.net/stores/005/807/159/rte/fundadores.png" alt="Louis Hamilton y Chester Beach, fundadores de Hamilton Beach, en su taller (1910)">
+    <img src="img/fundadores.jpg" alt="Louis Hamilton y Chester Beach, fundadores de Hamilton Beach, en su taller (1910)">
 
     <!-- 🔜 CUANDO TENGAS EL VIDEO 16:9 EN YOUTUBE: borrá el <img> de arriba y descomentá este bloque (poné tu ID en TU_ID, 2 veces):
     <div style="position:relative;padding-top:56.25%;">
@@ -229,7 +230,7 @@
         <p style="color:var(--hb-muted);">Esa misma ingeniería y exigencia está detrás de cada producto Hamilton Beach que usás hoy.</p>
       </div>
       <div>
-        <img src="https://d1a9qnv764bsoo.cloudfront.net/stores/005/807/159/rte/motor.png" alt="Hamilton Beach Home Motor, patentado en 1917">
+        <img loading="lazy" src="img/motor.jpg" alt="Hamilton Beach Home Motor, patentado en 1917">
       </div>
     </div>
     <div class="hb-patent">
@@ -259,7 +260,7 @@
   <div class="hb-wrap">
     <div class="hb-split hb-split--rev">
       <div>
-        <img src="https://d1a9qnv764bsoo.cloudfront.net/stores/005/807/159/rte/cocina-ar.png" alt="Productos Hamilton Beach en una cocina argentina">
+        <img loading="lazy" src="img/cocina-ar.jpg" alt="Productos Hamilton Beach en una cocina argentina">
       </div>
       <div class="hb-split-text">
         <div class="hb-eyebrow">Ahora en tu cocina <svg class="hb-flag"><use href="#hb-flag-ar"></use></svg></div>
